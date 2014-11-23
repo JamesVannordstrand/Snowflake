@@ -38,13 +38,12 @@ public class Scene{
     //Snowflake locations (X and Y)
     private int[] snowflakesX = new int[snowflakeCount];
     private int[] snowflakesY = new int[snowflakeCount];
+    private int[] snowflakeSpeed = new int[snowflakeCount];
+    private int[] snowflakeDirection = new int[snowflakeCount];
     private Bitmap images; // = new Bitmap[snowflakeCount];
     
     //snowflake image height
     private int snowflakeHeight;
-    
-    //snowflake falling speed
-    private int fallingSpeed = 10;
     
     //snowflake distance from another
     private int snowflakeDistance;
@@ -72,8 +71,10 @@ public class Scene{
         
         //Initialize snowflake locations
         for(int i = 0; i < snowflakeCount; i++){
-        	snowflakesX[i] = rand.nextInt(screenWidth);
+        	snowflakesX[i] = rand.nextInt(screenWidth) - (snowflakeHeight / 2);
         	snowflakesY[i] = snowflakeDistance * i;
+        	snowflakeSpeed[i] = rand.nextInt(11) + 5;
+        	snowflakeDirection[i] = rand.nextInt(7) - 3;
         }
         
         images = BitmapFactory.decodeResource(WallpaperActivity.c.getResources(), R.drawable.snowflake);
@@ -86,8 +87,10 @@ public class Scene{
     		 if(snowflakesY[i] > screenHeight + snowflakeHeight) {
     			 snowflakesX[i] = rand.nextInt(screenWidth);
     			 snowflakesY[i] = 0 - snowflakeHeight;
+    			 snowflakeSpeed[i] = rand.nextInt(11) + 5;
     		 }else{
-    			 snowflakesY[i] += fallingSpeed;
+    			 snowflakesY[i] += snowflakeSpeed[i];
+    			 snowflakesX[i] += snowflakeDirection[i];
     		 }
     	 }
     	 
